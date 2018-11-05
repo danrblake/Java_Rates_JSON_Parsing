@@ -16,14 +16,17 @@ public class JSONFileTester {
 
     private String filePath = "resources/rates.json";
     private JSONObject allRates;
-    private RatesParser ratesParser = new RatesParser(filePath);
+    private RatesParser ratesParser;
     private Set<String> rateKeySet;
     private Object[] rateArray;
+
     @Before
     public void setUp() {
+        ratesParser = new RatesParser(filePath);
         allRates = (JSONObject) ratesParser.getAllRates();
         rateKeySet = allRates.keySet();
         rateArray = rateKeySet.toArray();
+
     }
 
     @Test
@@ -58,7 +61,7 @@ public class JSONFileTester {
 
     @Test
     public void testAllGetters(){
-        assertTrue( ratesParser.getJSONSuccess());
+        assertEquals( "true", ratesParser.getJSONSuccess());
         assertEquals("EUR",ratesParser.getBaseCurrency());
         assertEquals("2018-10-10", ratesParser.getRatesDate());
         assertEquals(1539182646, ratesParser.getTimeStamp());
