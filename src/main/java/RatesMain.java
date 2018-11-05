@@ -4,6 +4,7 @@ public class RatesMain {
 
         RateFileReader rateFileReader = new RateFileReader("resources/rates.json");
         RatesParser ratesParser = new RatesParser("resources/rates.json");
-        System.out.println(ratesParser.getJSONSuccess());
+//        System.out.println(ratesParser.getJSONSuccess());
+        System.out.println(ratesParser.getSpecificRate("AED"));
     }
 }
