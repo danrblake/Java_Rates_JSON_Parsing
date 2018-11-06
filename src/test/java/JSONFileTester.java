@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNotEquals;
 public class JSONFileTester {
 
     private String filePath = "resources/rates.json";
+    private JSONObject JSONFile;
     private JSONObject allRates;
     private RatesParser ratesParser;
     private Set<String> rateKeySet;
@@ -24,6 +25,7 @@ public class JSONFileTester {
     public void setUp() {
         ratesParser = new RatesParser(filePath);
         allRates = (JSONObject) ratesParser.getAllRates();
+        JSONFile = ratesParser.getFile();
         rateKeySet = allRates.keySet();
         rateArray = rateKeySet.toArray();
 
@@ -51,7 +53,6 @@ public class JSONFileTester {
                 if (rateArray[i].equals(rateArray[j])) {
                     duplicates = true;
                 }
-
             }
             checkedDuplicates = true;
         }
@@ -61,9 +62,14 @@ public class JSONFileTester {
 
     @Test
     public void testAllGetters(){
-        assertEquals( "true", ratesParser.getJSONSuccess());
+        assertTrue( ratesParser.getJSONSuccess());
         assertEquals("EUR",ratesParser.getBaseCurrency());
         assertEquals("2018-10-10", ratesParser.getRatesDate());
-        assertEquals(1539182646, ratesParser.getTimeStamp());
+        assertEquals(1539182646, ratesParser.getTimeStamp(), 0.000000000);
+    }
+
+    @Test
+    public void testInvalidKey(){
+        assertFalse(allRates.containsKey("AAA"));
     }
 }

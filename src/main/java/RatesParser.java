@@ -6,21 +6,24 @@ public class RatesParser {
 
    public RatesParser(String filePath){
         RateFileReader rateFileReader = new RateFileReader(filePath);
-        rates = rateFileReader.getFullJSONFile();
+        this.rates = rateFileReader.getFullJSONFile();
+    }
+
+    public JSONObject getFile(){
+       return rates;
     }
 
     private Object getJSONValue(String key){return rates.get(key);}
 
     public boolean getJSONSuccess() {
-        try {
-            return (boolean) getJSONValue("success");
-        } catch (NullPointerException e) {
-            return (boolean) getJSONValue("success");
-        }
+            boolean result;
+         result = (Boolean) getJSONValue("success");
+            return result;
+
     }
     public Double getSpecificRate(String countryCode){
         rateValues = (JSONObject) getJSONValue("rates");
-        return Double.parseDouble(rateValues.get(countryCode).toString());
+        return (Double) (rateValues.get(countryCode));
     }
 
     public Object getAllRates(){
