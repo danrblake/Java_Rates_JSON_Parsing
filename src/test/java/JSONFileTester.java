@@ -17,14 +17,14 @@ public class JSONFileTester {
     private String filePath = "resources/rates.json";
     private JSONObject JSONFile;
     private JSONObject allRates;
-    private RatesParser ratesParser;
+    private RatesParser ratesParser = new RatesParser(filePath);
     private Set<String> rateKeySet;
     private Object[] rateArray;
 
     @Before
     public void setUp() {
-        ratesParser = new RatesParser(filePath);
-        allRates = (JSONObject) ratesParser.getAllRates();
+
+        allRates = ratesParser.getAllRates();
         JSONFile = ratesParser.getFile();
         rateKeySet = allRates.keySet();
         rateArray = rateKeySet.toArray();
@@ -62,7 +62,8 @@ public class JSONFileTester {
 
     @Test
     public void testAllGetters(){
-        assertTrue( ratesParser.getJSONSuccess());
+
+        assertEquals( "true", ratesParser.getJSONSuccess());
         assertEquals("EUR",ratesParser.getBaseCurrency());
         assertEquals("2018-10-10", ratesParser.getRatesDate());
         assertEquals(1539182646, ratesParser.getTimeStamp(), 0.000000000);
@@ -72,4 +73,6 @@ public class JSONFileTester {
     public void testInvalidKey(){
         assertFalse(allRates.containsKey("AAA"));
     }
+
+
 }

@@ -1,45 +1,63 @@
 import org.json.simple.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class RatesParser {
 
-    JSONObject rates;
+    JSONObject ratesFile;
     JSONObject rateValues;
 
-   public RatesParser(String filePath){
+    public RatesParser(String filePath) {
         RateFileReader rateFileReader = new RateFileReader(filePath);
-        this.rates = rateFileReader.getFullJSONFile();
+        ratesFile = rateFileReader.getFullJSONFile();
     }
 
-    public JSONObject getFile(){
-       return rates;
+    public JSONObject getFile() {
+        return ratesFile;
     }
 
-    private Object getJSONValue(String key){return rates.get(key);}
-
-    public boolean getJSONSuccess() {
-            boolean result;
-         result = (Boolean) getJSONValue("success");
-            return result;
-
+    private Object getJSONValue(String key) {
+        return ratesFile.get(key);
     }
-    public Double getSpecificRate(String countryCode){
+
+    public String getJSONSuccess() {
+        return getJSONValue("success").toString();
+    }
+
+    public Double getSpecificRate(String countryCode) {
         rateValues = (JSONObject) getJSONValue("rates");
         return (Double) (rateValues.get(countryCode));
     }
 
-    public Object getAllRates(){
-        rates = (JSONObject) getJSONValue("rates");
-        return rates;
+    public JSONObject getAllRates() {
+        rateValues = (JSONObject) getJSONValue("rates");
+        return rateValues;
     }
 
-    public String getRatesDate(){
-       return getJSONValue("date").toString();
+    public String getRatesDate() {
+        return getJSONValue("date").toString();
     }
 
-    public String getBaseCurrency(){
-       return getJSONValue("base").toString();
+    public String getBaseCurrency() {
+        return getJSONValue("base").toString();
     }
 
-    public double getTimeStamp(){
-       return Double.parseDouble(getJSONValue("timestamp").toString());
+    public double getTimeStamp() {
+        return Double.parseDouble(getJSONValue("timestamp").toString());
     }
 }
+//    public Date epochDateFormat(){
+//        return new Date(getTimeStamp() * 1000);
+//    }
+//
+//    public String getTimeFromTimestamp(){
+//        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//        return formatter.format(epochDateFormat());
+//    }
+//
+//    public String getDateFromTimestamp(){
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        return formatter.format(epochDateFormat());
+//    }
+
+
